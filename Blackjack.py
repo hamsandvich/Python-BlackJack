@@ -1,7 +1,7 @@
 
 
-from pickle import TRUE
-from secrets import choice
+from operator import truediv
+import random
 
 
 deck = ["D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","DJ","DQ","DK","DA","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","CJ","CQ","CK","CA","H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","HJ","HQ","HK","HA","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","SJ","SQ","SK","SA"]
@@ -93,7 +93,7 @@ def menu(case):
 
 def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
     firstBet = False
-    while betting == True:
+    while True:
         bet = 0
         if firstBet == False:
             print("How much do you want to bet \n 1) 1\n 2) 5 \n 3) 10 \n 4) 50 \n 5) 100")
@@ -158,10 +158,40 @@ def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
             elif  choice == 5 and userMoney < betAmount5:
                 print("you don't have enough for this bet you balance is {0}" (userMoney))
   
-                
+  
+def deal(deck):
+    playerScore = 0
+    playHand = []
+    dealerScore = 0
+    dealerHand = []
+    
+    playHand.append(deck[0])
+    deck.pop()
+    dealerHand.append(deck[0])
+    deck.pop()
+    playHand.append(deck[0])
+    deck.pop()
+    dealerHand.append(deck[0])
+    deck.pop()
+
+    
+
+    print("Dealer hand is {0}, {1}"(dealerHand[1], dealerScore))
+
+
+
 def game(bet):
+    playWon = False
+    playerDoubleDown = False
+    suffleDeck = random.shuffle(deck)
+    deal(suffleDeck)
+
+    
 
 
+
+
+    
 
 
 
@@ -188,4 +218,4 @@ def highBetting():
         if  choice == "N":
             print("1) Start Game  \n2) Quit ")
             choice = getIntInput(2)
-    m       enu(choice)
+            menu(choice)
