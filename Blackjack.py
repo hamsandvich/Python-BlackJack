@@ -1,6 +1,5 @@
 
 
-from operator import truediv
 import random
 
 
@@ -38,7 +37,7 @@ def main():
 def loadGameState():
     try:
         file = open("save.txt", "r")
-        l = file.readline()
+        l = file.readlines()
         file.close()
         return l[0],l[1]
 
@@ -47,6 +46,7 @@ def loadGameState():
         file.close()
         return 100 , ""
 
+# fix the order of name / money
 def saveGameStat(name, userMoney):
     lines = [name,userMoney]
     file = open("save.txt", "r")
@@ -59,7 +59,7 @@ def getIntInput(number):
         try:
             integer = int(input("Please input your choice: "))
         except ValueError:
-            print("Please, enter a input")
+            print("Not an integer, please try again")
             continue
         
         if integer > number or integer <= 0:
@@ -90,7 +90,9 @@ def menu(case):
         case 2:
             saveGameStat(name, userMoney)
             quit()
-
+##########
+# Freddie was here
+##################
 def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
     firstBet = False
     while True:
