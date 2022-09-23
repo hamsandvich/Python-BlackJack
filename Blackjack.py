@@ -29,8 +29,6 @@ def main():
     
     print("1) Start Game  \n2) Quit ")
     choice = getIntInput(2)
-    if choice == 2:
-        choice = 3
     menu(choice)
 
 
@@ -69,8 +67,12 @@ def getIntInput(number):
         
         else:
             return integer
-            break 
-            
+
+def getchar(str1, str2):
+    while True:
+        userStr = input("Please, enter a input")
+        if userStr.capitalize() == str1 or userStr.capitalize() == str2:
+            return userStr
 
 def menu(case):
     match case:
@@ -86,13 +88,10 @@ def menu(case):
                     print("You Don't have enought money for this mode :(")
                     lowBetting()
         case 2:
-            print("Your Current balance is {0}$", userMoney)
-        case 3:
             saveGameStat(name, userMoney)
             quit()
 
 def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
-    betting = True
     firstBet = False
     while betting == True:
         bet = 0
@@ -125,41 +124,68 @@ def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
             elif  choice == 5 and userMoney < betAmount5:
                 print("you don't have enough for this bet you balance is {0}" (userMoney))
             firstBet = True
-        print("How much do you want to add bet \n 1) 1\n 2) 5 \n 3) 10 \n 4) 50 \n 5) 100 \n 6) Deal")
-        choice = getIntInput(6)
-        if choice == 1 and userMoney >= betAmount1:
-            bet += betAmount1
-            userMoney -= betAmount1
-        elif  choice == 1 and userMoney < betAmount1:
-            print("you don't have enough for this bet you balance is {0}" (userMoney))
-        if choice == 2 and userMoney >= betAmount2:
-            bet += betAmount2
-            userMoney -= betAmount2
-        elif  choice == 2 and userMoney < betAmount2:
-            print("you don't have enough for this bet you balance is {0}" (userMoney))
-        if choice == 3 and userMoney >= betAmount3:
-            bet += betAmount3
-            userMoney -= betAmount3
-        elif  choice == 3 and userMoney < betAmount1:
-            print("you don't have enough for this bet you balance is {0}" (userMoney))
-        if choice == 4 and userMoney >= betAmount4:
-            bet += betAmount4
-            userMoney -= betAmount4
-        elif  choice == 4 and userMoney < betAmount4:
-            print("you don't have enough for this bet you balance is {0}" (userMoney))
-        if choice == 5 and userMoney >= betAmount5:
-            bet += betAmount5
-            userMoney -= betAmount5
-        elif  choice == 5 and userMoney < betAmount5:
-            print("you don't have enough for this bet you balance is {0}" (userMoney))
+        print("\n Your current bet is {0}$ \n 1)Deal \n 2) Increase Bet" (bet))
+        choice = getIntInput(2)
+        if choice == 1:
+            return bet
+
+        elif choice == 2:
+            print("How much do you want to add bet \n 1) 1$\n 2) 5$ \n 3) 10$ \n 4) 50$ \n 5) 100$")
+            choice = getIntInput(6)
+            if choice == 1 and userMoney >= betAmount1:
+                bet += betAmount1
+                userMoney -= betAmount1
+            elif  choice == 1 and userMoney < betAmount1:
+                print("you don't have enough for this bet you balance is {0}" (userMoney))
+            if choice == 2 and userMoney >= betAmount2:
+                bet += betAmount2
+                userMoney -= betAmount2
+            elif  choice == 2 and userMoney < betAmount2:
+                print("you don't have enough for this bet you balance is {0}" (userMoney))
+            if choice == 3 and userMoney >= betAmount3:
+                bet += betAmount3
+                userMoney -= betAmount3
+            elif  choice == 3 and userMoney < betAmount1:
+                print("you don't have enough for this bet you balance is {0}" (userMoney))
+            if choice == 4 and userMoney >= betAmount4:
+                bet += betAmount4
+                userMoney -= betAmount4
+            elif  choice == 4 and userMoney < betAmount4:
+                print("you don't have enough for this bet you balance is {0}" (userMoney))
+            if choice == 5 and userMoney >= betAmount5:
+                bet += betAmount5
+                userMoney -= betAmount5
+            elif  choice == 5 and userMoney < betAmount5:
+                print("you don't have enough for this bet you balance is {0}" (userMoney))
+  
+                
+def game(bet):
+
 
 
 
 
 def lowBetting():
-    playing = True
-    while playing == True:
+    while True:
         bet = placeBet(1,5,10,50,100,userMoney)
+        game(bet)
+        print("Your balance is {0}$ \n")
+        print("Play again Y or N")
+        choice = getchar("Y" , "N")
+        if  choice == "N":
+            print("1) Start Game  \n2) Quit ")
+            choice = getIntInput(2)
+            menu(choice)
+
 
 def highBetting():
-    pass
+    while True:
+        bet = placeBet(1,5,10,50,100,userMoney)
+        game(bet)
+        print("Your balance is {0}$ \n")
+        print("Play again Y or N")
+        choice = getchar("Y" , "N")
+        if  choice == "N":
+            print("1) Start Game  \n2) Quit ")
+            choice = getIntInput(2)
+    m       enu(choice)
