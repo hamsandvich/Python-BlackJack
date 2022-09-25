@@ -34,11 +34,18 @@ def loadGameState():
         file = open("save.txt", "r")
         l = file.readlines()
         file.close()
-        if l[0] == "" or l[1] == "":
-            if l[0] == "" and len(l[1]) >= 1:
+        if len(l) == 0:
+            return "", 100
+        
+        if l[0] == "" and len(l[1]) >= 1:
                 return "No Name", int(l[1])
+           
+        elif l[1] == "":
             if len(l[0]) >= 1 and l[1] == "":
                 return l[1],100
+            else:
+                return "", 100
+
         return l[0].strip("\n"),int(l[1])
 
     except:
