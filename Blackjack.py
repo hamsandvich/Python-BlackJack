@@ -76,7 +76,7 @@ def getIntInput(number):
 def getchar(str1, str2):
     while True:
         userStr = input("Please, enter a input")
-        if userStr.capitalize() == str1 or userStr.capitalize() == str2:
+        if userStr.upper() == str1 or userStr.upper() == str2:
             return userStr
 
 def menu(case):
@@ -331,7 +331,7 @@ def deal(deck, bet):
 
     if (playerScore == 21) or (playerScore == -1):
         dealerScore = random.randint(10,20)
-        return playerScore, dealerScore, doubleDown
+        return playerScore, dealerScore, doubleDown, doubleDown, split
 
     #Computer Deal
     while True:
@@ -352,7 +352,7 @@ def deal(deck, bet):
 
 
 def game(bet):
-    deck = ["D2","D3","D4","D5","D6","D7","D8","D9","D10","DJ","DQ","DK","DA","C2","C3","C4","C5","C6","C7","C8","C9","C10","CJ","CQ","CK","CA","H2","H3","H4","H5","H6","H7","H8","H9","H10","HJ","HQ","HK","HA","S2","S3","S4","S5","S6","S7","S8","S9","S10","SJ","SQ","SK","SA"]
+    deck = ["\u26662","\u26663","\u26664","\u26665","\u26666","\u26667","\u26668","\u26669","\u266610","\u2666J","\u2666Q","\u2666K","\u2666A","\u26672","\u26673","\u26674","\u26675","\u26676","\u26677","\u26678","\u26679","\u266710","\u2667J","\u2667Q","\u2667K","\u2667A","\u26652","\u26653","\u26654","\u26655","\u26656","\u26657","\u26658","\u26659","\u266510","\u2665J","\u2665Q","\u2665K","\u2665A","\u26642","\u26643","\u26644","\u26645","\u26646","\u26647","\u26648","\u26649","\u266410","\u2664J","\u2664Q","\u2664K","\u2664A"]
     # possible a better way to make the deck in case of simplicity i just used the above method 
     #deck = [i + j for i in ['D', 'C', 'H', 'S'] for j in ['1', '2', '3' 'J', 'Q', 'K']]
     global userMoney
