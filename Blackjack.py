@@ -16,6 +16,7 @@ def main():
         print("\n\nWelcome To Black Jack\n")
         name = input("Please type in your name: ")
         print("\n\nWelcome {}! We will start you with a balance of 100$ \n".format(name))
+        saveGameStat(name, userMoney)
     else:
         print("\n\nWelcome Back {0}! \nYour Current balance is {1}$".format(name,str(userMoney)))
     
@@ -75,7 +76,7 @@ def getIntInput(number):
 
 def getchar(str1, str2):
     while True:
-        userStr = input("Please, enter a input")
+        userStr = input("Please, enter a input: ")
         if userStr.upper() == str1 or userStr.upper() == str2:
             return userStr
 
@@ -344,7 +345,7 @@ def deal(deck, bet):
                 print("Bust")
                 dealerScore = -1
                 break
-        if dealerScore >= 17 and dealerScore < 21:
+        if (dealerScore >= 17) and (dealerScore < 21):
             break
 
     return playerScore, splitScore, dealerScore, doubleDown, split     
@@ -352,7 +353,10 @@ def deal(deck, bet):
 
 
 def game(bet):
-    deck = ["\u26662","\u26663","\u26664","\u26665","\u26666","\u26667","\u26668","\u26669","\u266610","\u2666J","\u2666Q","\u2666K","\u2666A","\u26672","\u26673","\u26674","\u26675","\u26676","\u26677","\u26678","\u26679","\u266710","\u2667J","\u2667Q","\u2667K","\u2667A","\u26652","\u26653","\u26654","\u26655","\u26656","\u26657","\u26658","\u26659","\u266510","\u2665J","\u2665Q","\u2665K","\u2665A","\u26642","\u26643","\u26644","\u26645","\u26646","\u26647","\u26648","\u26649","\u266410","\u2664J","\u2664Q","\u2664K","\u2664A"]
+    deck = ["\u26662","\u26663","\u26664","\u26665","\u26666","\u26667","\u26668","\u26669","\u266610","\u2666J","\u2666Q","\u2666K","\u2666A",
+    "\u26672","\u26673","\u26674","\u26675","\u26676","\u26677","\u26678","\u26679","\u266710","\u2667J","\u2667Q","\u2667K","\u2667A",
+    "\u26652","\u26653","\u26654","\u26655","\u26656","\u26657","\u26658","\u26659","\u266510","\u2665J","\u2665Q","\u2665K","\u2665A",
+    "\u26642","\u26643","\u26644","\u26645","\u26646","\u26647","\u26648","\u26649","\u266410","\u2664J","\u2664Q","\u2664K","\u2664A"]
     # possible a better way to make the deck in case of simplicity i just used the above method 
     #deck = [i + j for i in ['D', 'C', 'H', 'S'] for j in ['1', '2', '3' 'J', 'Q', 'K']]
     global userMoney
@@ -430,6 +434,7 @@ def lowBetting():
     while True:
         bet = placeBet(1,5,10,50,100)
         game(bet)
+        saveGameStat(name, userMoney)
         print("\nYour balance is {0}$ \n".format(userMoney))
         if userMoney == 0:
             userMoney = 100
@@ -447,6 +452,7 @@ def highBetting():
     while True:
         bet = placeBet(250,500,1000,5000,10000)
         game(bet)
+        saveGameStat(name, userMoney)
         print("Your balance is {0}$ \n".format(userMoney))
         if userMoney < 250:
             lowBetting()
