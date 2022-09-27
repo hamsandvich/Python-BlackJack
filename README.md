@@ -1,5 +1,6 @@
 # Python-BlackJack
 
+Python 3.10 or higher is required.
 
 ## The Goal WIth this project
 
