@@ -14,7 +14,7 @@ def main():
 
     if name == "":
         print("\n\nWelcome To Black Jack\n")
-        name = input("Please type in your name:")
+        name = input("Please type in your name: ")
         print("\n\nWelcome {}! We will start you with a balance of 100$ \n".format(name))
     else:
         print("\n\nWelcome Back {0}! \nYour Current balance is {1}$".format(name,str(userMoney)))
@@ -323,7 +323,7 @@ def deal(deck, bet):
             if playerScore > 21:
                 print("Bust")
                 playerScore = -1
-                Pass = True
+                break
         elif Pass == True:
             break
     dealerScore = score(dealerHand)
