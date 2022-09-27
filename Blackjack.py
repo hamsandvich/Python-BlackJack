@@ -1,8 +1,5 @@
 
-
-from cgi import print_arguments
 import random
-
 
 
 userMoney= 0
@@ -18,6 +15,7 @@ def main():
     if name == "":
         print("\n\nWelcome To Black Jack\n")
         name = input("Please type in your name:")
+        print("\n\nWelcome {}! We will start you with a balance of 100$ \n".format(name))
     else:
         print("\n\nWelcome Back {0}! \nYour Current balance is {1}$".format(name,str(userMoney)))
     
@@ -90,10 +88,10 @@ def menu(case):
             if choice == 1:
                 lowBetting()
             else:
-                if userMoney < 10000:
+                if userMoney >= 250:
                     highBetting()
                 else:
-                    print("You Don't have enought money for this mode :(")
+                    print("\nYou Don't have enought money for this mode :(\n")
                     lowBetting()
         case 2:
             saveGameStat(name, userMoney)
@@ -105,7 +103,7 @@ def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
     bet = 0
     while True:
         if firstBet == False:
-            print("\nHow much do you want to bet\n--------------------------- \n\n 1) 1\n 2) 5 \n 3) 10 \n 4) 50 \n 5) 100\n")
+            print("\nHow much do you want to bet\n--------------------------- \n\n 1) {0}$\n 2) {1}$ \n 3) {2}$ \n 4) {3}$ \n 5) {4}$\n".format(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5))
             choice = getIntInput(6)
             if choice == 1 and userMoney >= betAmount1:
                 bet += betAmount1
@@ -139,7 +137,7 @@ def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
             return bet
 
         elif choice == 2:
-            print("\nHow much do you want to add to your bet?\n---------------------------------------- \n\n 1) 1$\n 2) 5$ \n 3) 10$ \n 4) 50$ \n 5) 100$\n")
+            print("\nHow much do you want to add to your bet?\n---------------------------------------- \n\n 1) {0}$\n 2) {1}$ \n 3) {2}$ \n 4) {3}$ \n 5) {4}$\n".format(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5))
             choice = getIntInput(6)
             if choice == 1 and userMoney >= betAmount1:
                 bet += betAmount1
@@ -183,28 +181,32 @@ def score(hand):
         elif c[1] == "Q":
             score += 10
         elif c[1] == "A":
-            if score + 10 != 21:
+            if score + 10 >= 21:
                 score += 10
                 hasAce = True
-                numbAce += 1
+                
             else:
                 score += 1
                 hasAce = True
-                numbAce += 1
+                
         else:
             score += int(c[1:])
     if score > 21 and hasAce == True:
         score -= 10 
     return score
 
-def gameplayMenu(slpit,bet,Pass,Hit,firstdeal):
+def gameplayMenu(split,bet,Pass,hit,firstdeal):
     global userMoney
     choice = 0
+    doubleDown = False
+
     
-    if firstdeal == True and slpit == True:
+    
+    if firstdeal == True and split == True:
         print("\n\nWhat's your move!\n-----------------\n\n1) Hit  \n2) Pass \n3) Double Down\n4) Split" )
         choice = getIntInput(4)
         firstdeal = False
+        split = False
     
     elif firstdeal == True:
         firstdeal = False
@@ -228,7 +230,7 @@ def gameplayMenu(slpit,bet,Pass,Hit,firstdeal):
                 hit = True
         case 4:
             split = True
-    return Pass,Hit,doubleDown,split
+    return Pass,hit,doubleDown,split,firstdeal
 
 def deal(deck, bet):
     firstdeal = True
@@ -240,6 +242,7 @@ def deal(deck, bet):
     dealerScore = 0
     dealerHand = []
     playerSplit = False
+    doubleDown = False
     
     playHand.append(deck.pop())
     dealerHand.append(deck.pop())
@@ -251,20 +254,21 @@ def deal(deck, bet):
 
     print("Player hand is {0}, {1}".format(' '.join(playHand), playerScore) )
     
+    if playHand[0][1:] == playHand[1][1:]:
+        split = True
 
     #player loop
     while True:
-        doubleDown = False
         hit = False
         Pass = False
         hit2 = False
         Pass2 = False
 
 
-        if playerSplit != True:
-            Pass, hit, doubleDown, playerSplit = gameplayMenu(split,bet,Pass,hit,firstdeal)
+        if (playerSplit != True) and (doubleDown != True):
+            Pass, hit, doubleDown, playerSplit,firstdeal = gameplayMenu(split,bet,Pass,hit,firstdeal)
         
-        elif (playerSplit == True) and (split == True):
+        if (playerSplit == True) and (split == True):
             splitHand.append(playHand.pop())
             playHand.append(deck.pop())
             splitHand.append(deck.pop())
@@ -329,13 +333,13 @@ def deal(deck, bet):
 
         if dealerScore < 17:
             dealerHand.append(deck.pop())
-            if dealerScore > 21:
-                print("Bust")
-                playerScore = -1
-                break
             dealerScore = score(dealerHand)
             print("\n\nDealer hand is {0}, {1}\n".format(dealerHand, dealerScore))                
-        if dealerScore > 17 and dealerScore < 21:
+            if dealerScore > 21:
+                print("Bust")
+                dealerScore = -1
+                break
+        if dealerScore >= 17 and dealerScore < 21:
             break
 
     return playerScore, splitScore, dealerScore, doubleDown, split     
@@ -359,63 +363,87 @@ def game(bet):
     if playerDoubleDown == True:
         userMoney -= bet
         if playerScore > dealerScore:
-            print()
+            if dealerScore == -1:
+                print("\n\n\nDealer has bust Player wins {0}".format((bet *4)))
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Player Wins {2}".format(playerScore,dealerScore,(bet *4)))
             userMoney += (bet *4)
         elif playerScore < dealerScore:
-            print()
+            if playerScore == -1:
+                print("\n\n\nDealer has bust Player loses {0}".format((bet *2)))
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Player looses {2}".format(playerScore,dealerScore,(bet *2)))
         elif playerScore == dealerScore:
-            print()
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Dealer Push".format(playerScore,dealerScore))
             userMoney += (bet *2)
 
     elif split == True:
         userMoney -= bet
         if playerScore > dealerScore:
-            print()
+            if dealerScore == -1:
+                print("\n\n\nDealer has bust Player wins {0}".format((bet *2)))
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Player Wins {2}".format(playerScore,dealerScore,(bet *2)))
             userMoney += (bet *2)
         elif playerScore < dealerScore:
-            print()
+            if playerScore == -1:
+                print("\n\n\nDealer has bust Player loses {0}".format((bet)))
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Player looses {2}".format(playerScore,dealerScore,(bet)))
         elif playerScore == dealerScore:
-            print()
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Dealer Push".format(playerScore,dealerScore))
             userMoney += (bet)
         if splitScore > dealerScore:
-            print()
+            if dealerScore == -1:
+                print("\n\n\nDealer has bust Player wins {0}".format((bet *2)))
+            print("\n\n\nPlayer split hand score: {0}\nDealer score: {1}\n \n Player Wins {2}".format(playerScore,dealerScore,(bet *2)))
             userMoney += (bet *2)
         elif splitScore < dealerScore:
-            print()
+            if playerScore == -1:
+                print("\n\n\nDealer has bust Player loses {0}".format((bet)))
+            print("\n\n\nPlayer split hand score: {0}\nDealer score: {1}\n \n Player looses {2}".format(playerScore,dealerScore,(bet)))
         elif splitScore == dealerScore:
-            print()
+            print("\n\n\nPlayer split hand score: {0}\nDealer score: {1}\n \n Dealer Push".format(playerScore,dealerScore))
             userMoney += (bet)
     elif (split != True) and (playerDoubleDown != True):
         if playerScore > dealerScore:
-            print()
+            if dealerScore == -1:
+                print("\n\n\nDealer has bust Player wins {0}".format((bet *2)))
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Player Wins {2}".format(playerScore,dealerScore,(bet *2)))
             userMoney += (bet *2)
         elif playerScore < dealerScore:
-            print()
+            if playerScore == -1:
+                print("\n\n\nDealer has bust Player loses {0}".format((bet)))
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Player looses {2}".format(playerScore,dealerScore,(bet)))
         elif playerScore == dealerScore:
-            print()
+            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \n Dealer Push".format(playerScore,dealerScore))
             userMoney += (bet)   
     
     return
 
 
 def lowBetting():
+    global userMoney
+
+
     while True:
         bet = placeBet(1,5,10,50,100)
         game(bet)
-        print("Your balance is {0}$ \n")
-        print("Play again Y or N")
+        print("\nYour balance is {0}$ \n".format(userMoney))
+        if userMoney == 0:
+            print("\n\nyour in Luck here 100$ on the house!\n")
+        print("\nPlay again Y or N")
         choice = getchar("Y" , "N")
         if  choice == "N":
-            print("1) Start Game  \n2) Quit ")
+            print("\n1) Start Game  \n2) Quit ")
             choice = getIntInput(2)
             menu(choice)
 
 
 def highBetting():
+    global userMoney
     while True:
         bet = placeBet(250,500,1000,5000,10000)
         game(bet)
-        print("Your balance is {0}$ \n")
+        print("Your balance is {0}$ \n".format(userMoney))
+        if userMoney < 250:
+            lowBetting()
         print("Play again Y or N")
         choice = getchar("Y" , "N")
         if  choice == "N":
