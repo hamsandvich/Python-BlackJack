@@ -1,9 +1,12 @@
 
-
-from glob import glob
+from ast import Break
+from inspect import _void
 import random
+from secrets import choice
+from tokenize import Double
+from typing import Tuple
 
-
+from macpath import split
 
 userMoney= 0
 name = ""
@@ -19,9 +22,9 @@ def main():
         print("\n\nWelcome To Black Jack\n")
         name = input("Please type in your name:")
     else:
-        print("\n\nWelcome Back {0}! \nYour Current balance is {1}$\n\n".format(name,str(userMoney)))
+        print("\n\nWelcome Back {0}! \nYour Current balance is {1}$".format(name,str(userMoney)))
     
-    print("Main Menu\n---------\n\n1) Start Game  \n2) Quit \n")
+    print("\n\nMain Menu\n---------\n\n1) Start Game  \n2) Quit \n")
     choice = getIntInput(2)
     menu(choice)
 
@@ -96,6 +99,12 @@ def menu(case):
                     print("You Don't have enought money for this mode :(")
                     lowBetting()
         case 2:
+                print()
+                ## Add the rules here for the player
+        
+        
+        
+        case 3:
             saveGameStat(name, userMoney)
             quit()
 
@@ -167,60 +176,107 @@ def placeBet(betAmount1,betAmount2,betAmount3,betAmount4,betAmount5):
             elif  choice == 5 and userMoney < betAmount5:
                 print("\nYou don't have enough for this bet. Your balance is {0}".format(userMoney))
   
-def score(deckList, splt):
-
+def score(hand):
+    hasAce = False
+    if type(hand) != list:
+        card = hand
+        hand = []
+        hand.append(card)
     score = 0
-    for i in range(deckList):
-        if i[1] == "K":
+    for i in range(len(hand)):
+        c = hand[i]
+        if c[1] == "K":
             score += 10
-        if i[1] == "J":
+        elif c[1] == "J":
             score += 10
-        if i[1] == "Q":
+        elif c[1] == "Q":
             score += 10
+        elif c[1] == "A":
+            if score + 10 != 21:
+                score += 10
+                hasAce = True
+                numbAce += 1
+            else:
+                score += 1
+                hasAce = True
+                numbAce += 1
         else:
-            score += int(i[1:])
+            score += int(c[1:])
+    if score > 21 and hasAce == True:
+        score -= 10 
     return score
 
+def gameplayMenu(slpit,bet,Pass,Hit,firstdeal):
+    global userMoney
+    choice = 0
+    if firstdeal == True and slpit == True:
+        print()
+        choice = getIntInput()
+    
+    elif firstdeal == True:
+        firstdeal = False
+        print()
+        choice = getIntInput()
+    else:
+        print()
+        choice = getIntInput()
+    
+    match choice:
 
+        case 1:
+            hit = True
+        case 2:
+            Pass = True
+        case 3:
+            if userMoney - bet > 0:
+                doubleDown = True
+            else:
+                print("\nYou don't have enough for this bet. Your balance is {0}".format(userMoney))
+                hit = True
+        case 4:
+            split = True
+    return Pass,Hit,doubleDown,split
 
-def deal(deck):
-    stand = 17
-    blackJack = 21
+def deal(deck, bet):
+    firstdeal = True
+    split = False
     playerScore = 0
     playHand = []
+    splitHand = []
     dealerScore = 0
     dealerHand = []
-    split = False
     
     playHand.append(deck.pop())
     dealerHand.append(deck.pop())
     playHand.append(deck.pop())
     dealerHand.append(deck.pop())
     playerScore = score(playHand)
-    dealerHand = score(dealerHand[1])
-    print("Dealer hand is {0}, {1}\n \n \n \n",(dealerHand[1], dealerScore))
+    dealerScore = score(dealerHand[1])
+    print("\n\nDealer hand is {0}, {1}\n".format(dealerHand[1], dealerScore))
 
-    print("Player hand is {0}, {1}", (playHand.join(" "), playerScore) )
+    print("Player hand is {0}, {1}".format(' '.join(playHand), playerScore) )
 
+    #player loop
+    while True:
+        doubleDown=False
+        hit = False
+        Pass = False
 
+        gameplayMenu(split,bet,Pass,hit,firstdeal)
+
+        
 
 
 
 def game(bet):
-    deck = ["D1","D2","D3","D4","D5","D6","D7","D8","D9","D10","DJ","DQ","DK","DA","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","CJ","CQ","CK","CA","H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","HJ","HQ","HK","HA","S1","S2","S3","S4","S5","S6","S7","S8","S9","S10","SJ","SQ","SK","SA"]
+    deck = ["D2","D3","D4","D5","D6","D7","D8","D9","D10","DJ","DQ","DK","DA","C2","C3","C4","C5","C6","C7","C8","C9","C10","CJ","CQ","CK","CA","H2","H3","H4","H5","H6","H7","H8","H9","H10","HJ","HQ","HK","HA","S2","S3","S4","S5","S6","S7","S8","S9","S10","SJ","SQ","SK","SA"]
     # possible a better way to make the deck in case of simplicity i just used the above method 
     #deck = [i + j for i in ['D', 'C', 'H', 'S'] for j in ['1', '2', '3' 'J', 'Q', 'K']]
     playWon = False
     playerDoubleDown = False
     
-    suffleDeck = random.shuffle(deck)
-    playerWon, playerDoubleDown = deal(suffleDeck)
-
-    
-
-
-
-
+    random.shuffle(deck)
+    playerWon, playerDoubleDown = deal(deck,bet)
     
 
 
