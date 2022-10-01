@@ -2,13 +2,13 @@
 
 Python 3.10 or higher is required.
 
-## The Goal WIth this project
+## The Goal WIth This Project
 
 I wanted to challage myself in making blackjack in python for fun. 
 
 I might take what i have done here and port it over to a faster language like c++ and build a new Gui for it
 
-
+![Alt Text]("https://giphy.com/embed/l1IXY77djUsHH6S8o")
 
 
 ## Rules Of BlackJack
