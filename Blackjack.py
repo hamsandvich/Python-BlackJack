@@ -255,7 +255,6 @@ def deal(deck, bet):
     dealerHand.append(deck.pop())
     playerScore = score(playHand)
     dealerScore = score(dealerHand[1])
-    playHand= ['aA','aA']
     print("\nDealer hand is {0}, {1}\n".format(dealerHand[1], dealerScore))
 
     print("Player hand is {0}, {1}".format(' '.join(playHand), playerScore) )
@@ -387,63 +386,63 @@ def game(bet):
         userMoney -= bet
         if playerScore > dealerScore:
             if dealerScore == -1:
-                print("\n\n\nDealer has bust. Player wins {0}".format((bet *4)))
+                print("\nDealer has bust. Player wins {0}".format((bet *4)))
             else:
-                print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *4)))
+                print("\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *4)))
             userMoney += (bet *4)
         elif playerScore < dealerScore:
             if playerScore == -1:
-                print("\n\n\nPlayer has bust. Player loses {0}".format((bet *2)))
+                print("\nPlayer has bust. Player loses {0}".format((bet *2)))
             else:
-                print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet *2)))
+                print("\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet *2)))
         elif playerScore == dealerScore:
-            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
+            print("\nPlayer score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
             userMoney += (bet *2)
 
     elif split == True:
         userMoney -= bet
         if playerScore > dealerScore:
             if dealerScore == -1:
-                print("\n\n\nDealer has bust. Player wins {0}".format((bet *2)))
+                print("\nDealer has bust. Player wins {0}".format((bet *2)))
             else:
-                print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *2)))
+                print("\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *2)))
             userMoney += (bet *2)
         elif playerScore < dealerScore:
             if playerScore == -1:
-                print("\n\n\nPlayer has bust. Player loses {0}".format((bet)))
+                print("\nPlayer has bust. Player loses {0}".format((bet)))
             else:
-                print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet)))
+                print("\n\Player score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet)))
         elif playerScore == dealerScore:
-            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
+            print("\n\nPlayer score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
             userMoney += (bet)
         if splitScore > dealerScore:
             if dealerScore == -1:
                 print("\nDealer has bust Player wins {0}".format((bet *2)))
             else:
-                print("\nPlayer split hand score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *2)))
+                print("\n\nPlayer split hand score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *2)))
             userMoney += (bet *2)
         elif splitScore < dealerScore:
             if playerScore == -1:
-                print("\n\n\nPlayers split hand has bust. Player loses {0}".format((bet)))
+                print("\nPlayers split hand has bust. Player loses {0}".format((bet)))
             else:
-                print("\n\n\nPlayer split hand score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet)))
+                print("\n\nPlayer split hand score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet)))
         elif splitScore == dealerScore:
-            print("\n\n\nPlayer split hand score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
+            print("\n\nPlayer split hand score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
             userMoney += (bet)
     elif (split != True) and (playerDoubleDown != True):
         if playerScore > dealerScore:
             if dealerScore == -1:
-                print("\n\n\nDealer has bust. Player wins {0}".format((bet *2)))
+                print("\nDealer has bust. Player wins {0}".format((bet *2)))
             else:
-                print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *2)))
+                print("\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer Wins {2}".format(playerScore,dealerScore,(bet *2)))
             userMoney += (bet *2)
         elif playerScore < dealerScore:
             if playerScore == -1:
-                print("\n\n\nPlayer has bust. Player loses {0}".format((bet)))
+                print("\nPlayer has bust. Player loses {0}".format((bet)))
             else:
-                print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet)))
+                print("\n\nPlayer score: {0}\nDealer score: {1}\n \nPlayer looses {2}".format(playerScore,dealerScore,(bet)))
         elif playerScore == dealerScore:
-            print("\n\n\nPlayer score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
+            print("\n\nPlayer score: {0}\nDealer score: {1}\n \nDealer Push".format(playerScore,dealerScore))
             userMoney += (bet)   
     
     return
