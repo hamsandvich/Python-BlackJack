@@ -6,9 +6,6 @@ Python 3.10 or higher is required.
 
 I wanted to challage myself in making blackjack in python for fun. 
 
-I might take what i have done here and port it over to a faster language like c++ and build a new Gui for it
-
-
 
 
 ## Rules Of BlackJack
